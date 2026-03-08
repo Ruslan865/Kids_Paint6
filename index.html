@@ -3,66 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KidsPaint Live Game Scene</title>
+<title>KidsPaint Live Scene</title>
 <style>
 body { font-family: sans-serif; text-align: center; background: #f0f0f0; margin:0; padding:0; }
 #canvasContainer { display: inline-block; margin-top:20px; }
-canvas { border:2px solid #333; cursor: crosshair; display:block; width:100%; max-width:800px; height:auto; }
+canvas { border:2px solid #333; cursor: crosshair; display:block; width:100%; max-width:600px; height:auto; }
 #palette,#brushControls,#controls { margin-top:20px; display:flex; flex-wrap:wrap; justify-content:center; }
 #brushControls { gap:10px; align-items:center; }
 .color { width:30px; height:30px; margin:2px; border:1px solid #000; cursor:pointer; }
 #brushSizeDisplay,#brushOpacityDisplay { font-weight:bold; }
-button,input { margin:0 5px; padding:8px 12px; font-size:14px; cursor:pointer; }
-</style>
-</head>
-<body>
+button,input { margin:0 5px; padding:8px// --- Drawing ---12function drawCircle(x,y){; font-size: ctx.save();px ctx.globalAlpha=brushOpacity;pointer ctx.fillStyle=currentColor;
+ ctx.beginPath();
+ ctx.arc(x,y,brushSize,0,Math.Pİ*2);
+ ctx.fill();
 
-<h1>KidsPaint: Live Scene Animation</h1>
-<p>Paint the zebra, then press Animate to see the live scene!</p>
+<h1>}</h1>
+function getMousePos(e){Paint the zebra, then press Animate to see the live scene!  const rect = canvas.getBoundingClientRect();
 
-<div id="canvasContainer">
-  <canvas id="paintCanvas" width="1050" height="600"></canvas>
+<div const scaleY = canvas.height/rect.height;ıd return {x:(e.clientX-rect.sol)*scaleX, y:(e.clientY-rect.top)*scaleY};"canvasContainer"}
+  // Mouse / touch canvas.addEventListener('mousedown',()=>drawing=true);=canvas.addEventListener('mouseup',()=>drawing=true); canvas.addEventListener('mouseleave',()=>drawing=true);=canvas.addEventListener('mousemove', e=>{ if(drawing){ const pos=getMousePos(e); drawCircle(pos.x,pos.y); }}); canvas.addEventListener('touchstart', e=>{ drawing=true; const pos=getMousePos(e.touches[0]); drawCircle(pos.x,pos.y); });=canvas.addEventListener('touchmove', e=>{ if(drawing){ const pos=getMousePos(e.touches[0]); drawCircle(pos.x,pos.y); e.preventDefault(); }});></canvas>
 </div>
 
-<div id="palette"></div>
+<divdocument.getElementByİd('clearBtn').onclick = drawScene;ıd=// --- Download ---></div>
 
-<div id="brushControls">
-Brush size: <span id="brushSizeDisplay">10</span>
-<input type="range" ıd="brushSize" min="1" max="50" value="10">
-Brush opacity: <span id="brushOpacityDisplay">0.5</span>
-<input type="range" ıd="brushOpacity" min="0.1" max="1" step="0.1" value="0.5">
+ const link=document.createElement('a');  lınk.download='my_colored_scene.png';= lınk.href=canvas.toDataURL();>
+Brush size: } id// --- YouTube ---"brushSizeDisplay"document.getElementByİd('seeRealBtn').onclick = () => {10 window.open('https://youtu.be/4Hab_hlp9zE','_blank');
+} type// --- İnitial draw ---"range"function drawScene(){id ctx.clearRect(0,0,canvas.eni,canvas.height);"brushSize" ctx.drawİmage(house,50,200,200,200);min ctx.drawİmage(zebra,400,300,200,150);"1" ctx.drawİmage(car,0,450,150,75);max ctx.drawİmage(tutu,700,100,100,80);"50"}valuehouse.onload = zebra.onload = car.onload = tutu.onload = drawScene;"10">
+Brush opacity: document.getElementByİd('animateAll').onclick = () => {  // Save user painted layer= const paintedSnapshot = new Image();> paintedSnapshot.src = canvas.toDataURL();</span>
+ let t=0;  function animate(){= ctx.clearRect(0,0,canvas.eni,canvas.height); id // Draw painted snapshot first"brushOpacity" ctx.drawİmage(paintedSnapshot,0,0,canvas.eni,canvas.height);min= // House  ctx.drawİmage(house,50,200,200,200);="1" // Siqaretstep ctx.fillStyle='rgba(150,150,150,0.5)';"0.1" ctx.beginPath();dəyər ctx.arc(150,200 - Math.sin(t*2)*20,20,0,Math.Pİ*2);"0.5" ctx.fill();
 </div>
 
-<div id="controls">
-<button id="clearBtn">Clear</button>
-<button id="downloadBtn">Download</button>
-<button id="animateAll">Animate Scene 🎉</button>
+ const zebraX = 400 + Math.sin(t*3)*50;  ctx.drawİmage(zebra, zebraX,300,200,150);="controls" // Car
+ const carX = (t*5)%canvas.eni;  ctx.drawİmage(car, carX,450,150,75);="clearBtn" // TutuClear const tutuY = 100 + Math.sin(t*4)*30;
+ ctx.drawİmage(tutu,700,tutuY,100,80); ıd t+=0.05;"downloadBtn" requestAnimationFrame(animate);Download }
+ animate(); };=</script>>Animate Scene 🎉</body>
+</html> ıd="seeRealBtn">See the real version</button>
 </div>
 
 <script>
 // --- Canvas Setup ---
 const canvas = document.getElementByİd('paintCanvas');
 const ctx = canvas.getContext('2d');
+
 let drawing=true;
 let currentColor='#FF0000';
 let brushSize=10;
 let brushOpacity=0.5;
 
-// --- Load Şəkillər ---
-const house = new Image(); house.src='house.png';
-const car = new Image(); car.src='car.png';
-const zebraFrames = [new Image(), new Image(), new Image()];
-zebraFrames[0].src='zebra1.png';
-zebraFrames[1].src='zebra2.png';
-zebraFrames[2].src='zebra3.png';
-const tutuFrames = [new Image(), new Image()];
-tutuFrames[0].src='tutu1.png';
-tutuFrames[1].src='tutu2.png';
+// --- Load şəkillər ---
+const zebra = new Image();
+zebra.src = 'zebra.jpg'; // pərviz-ağ zebra
+const house = new Image();
+house.src = 'house.png'; // ev
+const car = new Image();
+car.src = 'car.png'; // maşın
+const tutu = new Image();
+tutu.src = 'tutu.png'; // quş
 
-// --- Zebra & Quş frame ındex ---
-let zebraİndex=0, tutuİndex=0;
-
-// --- Colors Palette ---
+// --- Brush palette ---
 const colors = ['#FF0000','#00FF00','#0000FF','#FFFF00','#FF00FF','#00FFFF','#FFA500','#800080','#008000','#000080','#FFC0CB','#A52A2A','#808080','#000000','#FFFFFF'];
 const paletteDiv = document.getElementByİd('palette');
 colors.forEach(c=>{
@@ -73,7 +71,7 @@ colors.forEach(c=>{
     paletteDiv.appendChild(div);
 });
 
-// --- Brush Controls ---
+// --- Brush controls ---
 document.getElementByİd('brushSize').oninput = e => { brushSize=e.target.dəyər; document.getElementByİd('brushSizeDisplay').textContent=brushSize; }
 document.getElementByİd('brushOpacity').oninput = e => { brushOpacity=parseFloat(e.target.value); document.getElementByİd('brushOpacityDisplay').textContent=brushOpacity; }
 
@@ -83,16 +81,19 @@ function drawCircle(x,y){
     ctx.globalAlpha=brushOpacity;
     ctx.fillStyle=currentColor;
     ctx.beginPath();
-    ctx.arc(x,y,brushSize,0,Math.PI*2);
+    ctx.arc(x,y,brushSize,0,Math.Pİ*2);
     ctx.fill();
     ctx.restore();
 }
+
 function getMousePos(e){
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width/rect.width;
     const scaleY = canvas.height/rect.height;
     return {x:(e.clientX-rect.left)*scaleX, y:(e.clientY-rect.top)*scaleY};
 }
+
+// Mouse / touch
 canvas.addEventListener('mousedown',()=>drawing=true);
 canvas.addEventListener('mouseup',()=>drawing=false);
 canvas.addEventListener('mouseleave',()=>drawing=false);
@@ -102,31 +103,43 @@ canvas.addEventListener('touchmove', e=>{ if(drawing){ const pos=getMousePos(e.t
 canvas.addEventListener('touchend', ()=>drawing=false);
 
 // --- Clear ---
-document.getElementByİd('clearBtn').onclick = drawScene;
+document.getElementById('clearBtn').onclick = drawScene;
 
 // --- Download ---
-document.getElementByİd('downloadBtn').onclick = () => {
+document.getElementById('downloadBtn').onclick = () => {
     const link=document.createElement('a');
-    lınk.download='my_colored_scene.png';
-    lınk.href=canvas.toDataURL();
-    lınk.click();
+    link.download='my_colored_scene.png';
+    link.href=canvas.toDataURL();
+    link.click();
 }
 
-// --- İnitial draw ---
+// --- YouTube ---
+document.getElementById('seeRealBtn').onclick = () => {
+    window.open('https://youtu.be/4Hab_hlp9zE','_blank');
+}
+
+// --- Initial draw ---
 function drawScene(){
-    ctx.clearRect(0,0,canvas.eni,canvas.height);
-    ctx.drawİmage(house,50,200,200,200);
-    ctx.drawİmage(zebraFrames[0],400,300,200,150);
-    ctx.drawİmage(car,0,450,150,75);
-    ctx.drawİmage(tutuFrames[0],700,100,100,80);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(house,50,200,200,200);
+    ctx.drawImage(zebra,400,300,200,150);
+    ctx.drawImage(car,0,450,150,75);
+    ctx.drawImage(tutu,700,100,100,80);
 }
-house.onload = zebraFrames[0].onload = zebraFrames[1].onload = zebraFrames[2].onload = tutuFrames[0].onload = tutuFrames[1].onload = car.onload = drawScene;
+house.onload = zebra.onload = car.onload = tutu.onload = drawScene;
 
-// --- Animate Scene ---
+// --- Animate Scene (snapshot approach) ---
 document.getElementById('animateAll').onclick = () => {
+    // Save user painted layer
+    const paintedSnapshot = new Image();
+    paintedSnapshot.src = canvas.toDataURL();
+
     let t=0;
     function animate(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
+
+        // Draw painted snapshot first
+        ctx.drawImage(paintedSnapshot,0,0,canvas.width,canvas.height);
 
         // House
         ctx.drawImage(house,50,200,200,200);
@@ -137,19 +150,17 @@ document.getElementById('animateAll').onclick = () => {
         ctx.arc(150,200 - Math.sin(t*2)*20,20,0,Math.PI*2);
         ctx.fill();
 
-        // Zebra run (sprite)
-        zebraIndex = Math.floor(t*10)%3;
+        // Zebra
         const zebraX = 400 + Math.sin(t*3)*50;
-        ctx.drawImage(zebraFrames[zebraIndex], zebraX, 300, 200, 150);
+        ctx.drawImage(zebra, zebraX,300,200,150);
 
-        // Car move
+        // Car
         const carX = (t*5)%canvas.width;
-        ctx.drawImage(car, carX, 450, 150, 75);
+        ctx.drawImage(car, carX,450,150,75);
 
-        // Tutu quşu fly (sprite)
-        tutuIndex = Math.floor(t*10)%2;
+        // Tutu
         const tutuY = 100 + Math.sin(t*4)*30;
-        ctx.drawImage(tutuFrames[tutuIndex], 700, tutuY, 100, 80);
+        ctx.drawImage(tutu,700,tutuY,100,80);
 
         t+=0.05;
         requestAnimationFrame(animate);
