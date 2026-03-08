@@ -18,7 +18,7 @@ button,input { margin:0 5px; padding:8px 12px; font-size:14px; cursor:pointer; }
 <body>
 
 <h1>KidsPaint: Zebra Coloring & Live Animate</h1>
-<p>Paint the zebra and press Animate to see it move live!</p>
+<p>Paint the zebra and press Animate to see the full image move!</p>
 
 <div id="canvasContainer">
   <canvas id="paintCanvas" width="1050" height="1050"></canvas>
@@ -118,19 +118,21 @@ document.getElementById('seeRealBtn').onclick = () => window.open('https://youtu
 
 // Animate full canvas live
 document.getElementById('animateAll').onclick = () => {
+    // Snapshot of canvas with all colors
     const animImg = new Image();
     animImg.src = canvas.toDataURL();
+
     animImg.onload = () => {
-        let t=0, dir=1;
+        let t=0;
+        let dir=1;
+
         function animate(){
             ctx.clearRect(0,0,canvas.width,canvas.height);
 
-            // X oscillation
+            // Make image "live": oscillate X, bounce Y, slight rotation
             let x = 50 + Math.sin(t)*200;
-            // Y bounce
             let y = 50 + Math.abs(Math.sin(t*2))*100;
-            // Rotation
-            let angle = Math.sin(t)*0.3;
+            let angle = Math.sin(t)*0.2;
 
             ctx.save();
             ctx.translate(x + canvas.width/2, y + canvas.height/2);
