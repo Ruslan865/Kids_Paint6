@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KidsPaint - Zebra Coloring</title>
+<title>KidsPaint - Animated Zebra</title>
 <style>
 body { font-family: sans-serif; text-align: center; background: #f0f0f0; margin:0; padding:0; }
 #canvasContainer { display: inline-block; margin-top:20px; }
@@ -17,7 +17,7 @@ button,input { margin:0 5px; padding:8px 12px; font-size:14px; cursor:pointer; }
 </head>
 <body>
 
-<h1>KidsPaint: Zebra Coloring</h1>
+<h1>KidsPaint: Animated Zebra</h1>
 <p>Paint the zebra, then press Animate to see it move!</p>
 
 <div id="canvasContainer">
@@ -41,7 +41,6 @@ Brush opacity: <span id="brushOpacityDisplay">0.5</span>
 </div>
 
 <script>
-// --- Canvas setup ---
 const canvas = document.getElementById('paintCanvas');
 const ctx = canvas.getContext('2d');
 let drawing=false;
@@ -49,10 +48,9 @@ let currentColor='#FF0000';
 let brushSize=10;
 let brushOpacity=0.5;
 
-// --- Load zebra image ---
+// --- Load zebra ---
 const zebra = new Image();
-zebra.src = 'zebra.jpg';
-zebra.onload = () => drawScene();
+zebra.src='zebra.jpg';
 
 // --- Palette ---
 const colors = ['#FF0000','#00FF00','#0000FF','#FFFF00','#FF00FF','#00FFFF','#FFA500','#800080','#008000','#000080','#FFC0CB','#A52A2A','#808080','#000000','#FFFFFF'];
@@ -69,7 +67,7 @@ colors.forEach(c=>{
 document.getElementById('brushSize').oninput = e => { brushSize=e.target.value; document.getElementById('brushSizeDisplay').textContent=brushSize; }
 document.getElementById('brushOpacity').oninput = e => { brushOpacity=parseFloat(e.target.value); document.getElementById('brushOpacityDisplay').textContent=brushOpacity; }
 
-// --- Drawing function ---
+// --- Drawing ---
 function drawCircle(x,y){
     ctx.save();
     ctx.globalAlpha=brushOpacity;
@@ -79,15 +77,12 @@ function drawCircle(x,y){
     ctx.fill();
     ctx.restore();
 }
-
 function getMousePos(e){
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width/rect.width;
     const scaleY = canvas.height/rect.height;
     return {x:(e.clientX-rect.left)*scaleX, y:(e.clientY-rect.top)*scaleY};
 }
-
-// Mouse / touch events
 canvas.addEventListener('mousedown',()=>drawing=true);
 canvas.addEventListener('mouseup',()=>drawing=false);
 canvas.addEventListener('mouseleave',()=>drawing=false);
@@ -97,10 +92,14 @@ canvas.addEventListener('touchmove', e=>{ if(drawing){ const pos=getMousePos(e.t
 canvas.addEventListener('touchend', ()=>drawing=false);
 
 // --- Draw initial scene ---
+let paintedSnapshot;
 function drawScene(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.drawImage(zebra, 200,150,650,300); // zebra centered
+    ctx.drawImage(zebra, 200,150,650,300);
+    paintedSnapshot = new Image();
+    paintedSnapshot.src = canvas.toDataURL();
 }
+zebra.onload = drawScene;
 
 // --- Clear ---
 document.getElementById('clearBtn').onclick = drawScene;
@@ -120,16 +119,17 @@ document.getElementById('seeRealBtn').onclick = () => {
 
 // --- Animate Zebra ---
 document.getElementById('animateBtn').onclick = () => {
-    const paintedSnapshot = new Image();
-    paintedSnapshot.src = canvas.toDataURL();
+    const zebraSprite = new Image();
+    zebraSprite.src = zebra.src;
     let t=0;
     function animate(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
         // Draw painted layer
         ctx.drawImage(paintedSnapshot,0,0,canvas.width,canvas.height);
-        // Zebra moves horizontally
-        const x = 200 + Math.sin(t*2)*100;
-        ctx.drawImage(zebra,x,150,650,300);
+        // Zebra horizontal move + slight vertical "legs" movement
+        const x = 200 + Math.sin(t*2)*150;
+        const y = 150 + Math.sin(t*10)*5; // ayaqlar qısa tərpənir
+        ctx.drawImage(zebraSprite,x,y,650,300);
         t+=0.05;
         requestAnimationFrame(animate);
     }
