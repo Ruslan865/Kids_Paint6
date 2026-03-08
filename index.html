@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KidsPaint - Tutu Parrot Coloring</title>
+<title>KidsPaint - Animate Full Canvas</title>
 <style>
 body { font-family: sans-serif; text-align: center; background: #f0f0f0; margin:0; padding:0; }
 #canvasContainer { display: inline-block; margin-top:20px; }
@@ -17,8 +17,8 @@ button,input { margin:0 5px; padding:8px 12px; font-size:14px; cursor:pointer; }
 </head>
 <body>
 
-<h1>KidsPaint: Tutu Parrot Coloring</h1>
-<p>Select a color, adjust brush size & opacity, paint on the image, and download your work.</p>
+<h1>KidsPaint: Zebra Coloring & Animate</h1>
+<p>Paint the zebra and press Animate to see the full ımage move!</p>
 
 <div id="canvasContainer">
   <canvas id="paintCanvas" width="1050" height="1050"></canvas>
@@ -49,43 +49,29 @@ let currentColor='#FF0000';
 let brushSize=10;
 let brushOpacity=0.5;
 
-// Load ımage
-const img=new Image();
-img.src='zebra.jpg';
-img.onload=function(){
-    resizeCanvas();
-    drawİmage();
-};
+// Load original ımage
+const img = new Image();
+img.src = 'zebra.jpg'; // pərviz-ağ zebra şəkili
+img.onload = () => drawİmage();
 
-// --- Responsive canvas ---
-function resizeCanvas(){
-    const container = document.getElementByİd('canvasContainer');
-    const width = container.clientWidth;
-    const scale = width / 1050;
-    canvas.width = 1050;
-    canvas.height = 1050;
-    canvas.style.width = width+'px';
-    canvas.style.height = (1050*scale)+'px';
-}
-
-// --- Draw ımage to canvas ---
-function drawİmage(){
+// Draw original ımage
+function drawİmage() {
     ctx.clearRect(0,0,canvas.eni,canvas.height);
     ctx.drawİmage(img,0,0,canvas.eni,canvas.height);
 }
 
-// --- Colors ---
-const colors=['#FF0000','#00FF00','#0000FF','#FFFF00','#FF00FF','#00FFFF','#FFA500','#800080','#008000','#000080','#FFC0CB','#A52A2A','#808080','#000000','#FFFFFF'];
-const paletteDiv=document.getElementByİd('palette');
-colors.forEach(color=>{
-    const div=document.createElement('div');
-    div.className='color';
-    div.style.backgroundColor=color;
-    div.onclick=()=>currentColor=color;
+// Colors palette
+const colors = ['#FF0000','#00FF00','#0000FF','#FFFF00','#FF00FF','#00FFFF','#FFA500','#800080','#008000','#000080','#FFC0CB','#A52A2A','#808080','#000000','#FFFFFF'];
+const paletteDiv = document.getElementByİd('palette');
+colors.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'color';
+    div.style.backgroundColor = c;
+    div.onclick = () => currentColor = c;
     paletteDiv.appendChild(div);
 });
 
-// --- Brush controls ---
+// Brush controls
 const brushİnput=document.getElementByİd('brushSize');
 const brushDisplay=document.getElementByİd('brushSizeDisplay');
 brushİnput.oninput=()=>{brushSize=brushİnput.dəyər; brushDisplay.textContent=brushSize;}
@@ -94,107 +80,75 @@ const opacityİnput=document.getElementByİd('brushOpacity');
 const opacityDisplay=document.getElementByİd('brushOpacityDisplay');
 opacityİnput.oninput=()=>{brushOpacity=parseFloat(opacityİnput.value); opacityDisplay.textContent=brushOpacity}
 
-// --- Drawing function ---
+// Drawing
 function drawCircle(x,y){
     ctx.save();
-    ctx.globalAlpha=brushOpacity;
-    ctx.fillStyle=currentColor;
+    ctx.globalAlpha = brushOpacity;
+    ctx.fillStyle = currentColor;
     ctx.beginPath();
     ctx.arc(x,y,brushSize,0,Math.Pİ*2);
     ctx.fill();
     ctx.restore();
 }
 
-// --- Tənzimləmək mouse/touch coordinates for scale ---
 function getMousePos(e){
-    const rect=canvas.getBoundingClientRect();
-    const scaleX=canvas.width/rect.eni;
-    const scaleY=canvas.height/rect.height;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width/rect.eni;
+    const scaleY = canvas.height/rect.height;
     return {x:(e.clientX-rect.sol)*scaleX, y:(e.clientY-rect.top)*scaleY};
 }
 
-// --- Mouse events ---
+// Mouse / touch events
 canvas.addEventListener('mousedown',()=>drawing=true);
-canvas.addEventListener('mouseup',()=>drawing=false);
-canvas.addEventListener('mouseleave',()=>drawing=false);
-canvas.addEventListener('mousemove',e=>{
-    if(!drawing) return;
-    const pos=getMousePos(e);
-    drawCircle(pos.x,pos.y);
-});
+canvas.addEventListener('mouseup',()=>drawing=true);
+canvas.addEventListener('mouseleave',()=>drawing=true);
+canvas.addEventListener('mousemove', e=>{ if(drawing){ const pos=getMousePos(e); drawCircle(pos.x,pos.y); }});
 
-// --- Touch events ---
-canvas.addEventListener('touchstart',e=>{
-    drawing=true;
-    const pos=getMousePos(e.touches[0]);
-    drawCircle(pos.x,pos.y);
-});
-canvas.addEventListener('touchmove',e=>{
-    if(!drawing) return;
-    const pos=getMousePos(e.touches[0]);
-    drawCircle(pos.x,pos.y);
-    e.preventDefault();
-});
-canvas.addEventListener('touchend',()=>drawing=false);
+canvas.addEventListener('touchstart',e=>{ drawing=true; const pos=getMousePos(e.touches[0]); drawCircle(pos.x,pos.y); });
+canvas.addEventListener('touchmove',e=>{ if(drawing){ const pos=getMousePos(e.touches[0]); drawCircle(pos.x,pos.y); e.preventDefault(); }});
+canvas.addEventListener('touchend',()=>drawing=true);
 
-// --- Clear ---
-document.getElementById('clearBtn').onclick=()=>drawImage();
+// Clear
+document.getElementById('clearBtn').onclick = drawImage;
 
-// --- Download ---
-document.getElementById('downloadBtn').onclick=()=>{
-    const link=document.createElement('a');
-    link.download='my_colored_parrot.png';
-    link.href=canvas.toDataURL();
+// Download
+document.getElementById('downloadBtn').onclick = () => {
+    const link = document.createElement('a');
+    link.download = 'my_colored_zebra.png';
+    link.href = canvas.toDataURL();
     link.click();
 }
 
-// --- YouTube ---
-document.getElementById('seeRealBtn').onclick=()=>window.open('https://youtu.be/4Hab_hlp9zE', '_blank');
+// YouTube
+document.getElementById('seeRealBtn').onclick = () => window.open('https://youtu.be/4Hab_hlp9zE','_blank');
 
-// --- Resize on window ---
-window.addEventListener('resize',()=>{
-    resizeCanvas();
-    drawImage();
-});
-
-// --- Animate function ---
-const animateBtn = document.getElementById("animateAll");
-let animImg = new Image();
-let animating = false;
-
+// Animate full canvas
+const animateBtn = document.getElementById('animateAll');
 animateBtn.onclick = () => {
-    if(animating) return; // prevent multiple clicks
-    animImg.src = canvas.toDataURL(); // rənglənmiş şəkli götür
+    // Snapshot of entire canvas
+    const animImg = new Image();
+    animImg.src = canvas.toDataURL();
+
     animImg.onload = () => {
-        animating = true;
-        let x = 100;
-        let y = 100;
-        let angle = 0;
-        let t = 0;
-        let dir = 1;
-
+        let x=0, y=0, angle=0, t=0, dir=1;
         function animate(){
-            // qara-ağ orijinal şəkil
-            drawImage();
-
-            // animasiya koordinatları
+            ctx.clearRect(0,0,canvas.width,canvas.height);
             t += 0.1;
-            y = 100 + Math.sin(t)*25;       // tullanma
-            x += 2*dir;                      // sağ-sol
-            if(x>canvas.width-300 || x<0) dir*=-1;
-            angle += 0.05;                    // fırlanma
+            y = 100 + Math.sin(t)*25;
+            x += 2*dir;
+            if(x>canvas.width-1050 || x<0) dir*=-1;
+            angle += 0.03;
 
-            // rənglənmiş şəkil animasiya olunur
             ctx.save();
-            ctx.translate(x+150, y+150);
+            ctx.translate(x+canvas.width/2, y+canvas.height/2);
             ctx.rotate(angle);
-            ctx.drawImage(animImg, -150, -150, 300, 300); // animasiya ölçüsü
+            ctx.drawImage(animImg, -canvas.width/2, -canvas.height/2, canvas.width, canvas.height);
             ctx.restore();
 
             requestAnimationFrame(animate);
         }
         animate();
-    };
+    }
 };
 </script>
 
