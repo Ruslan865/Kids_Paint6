@@ -1,56 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> <head>=<meta charset="UTF-8">>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-eni, initial-scale=1.0">
-<title>KidsPaint - Tutu Parrot Coloring</title>
+<meta<style>charsetbody { font-family: sans-serif; text-align: center; background: #f0f0f0; margin:0; padding:0; }"UTF-8">
+<meta display: inline-blok;name position: relative; /* overlay üçün */"viewport"}content=canvas {>
+<title> cursor: crosshair;</title>
 <style>
-body { font-family: sans-serif; text-align: center; background: #f0f0f0; margin:0; padding:0; }
+body width:100%;sans-serif max-width:600px;center height:auto;0}0; }
 
-/* Susmaya: canvas + GIF yan-yana */
-#susmaya { display: flex; haqq qazandırmaq-content: center; align-items: flex-start; gap: 20px; flex-wrap: wrap; }
-
-#canvasContainer { display: inline-blok; }
-
-canvas { border:2px solid #333; cursor: crosshair; display:blok; touch-action:heç; width:100%; max-width:600px; height:auto; }
-
-/* GIF üçün */
-#gifContainer img {
- width: 200px; /* istədiyin ölçü */
- height: auto;
- display: heç; /* əvvəlcə gizli */
- border: 2px solid #333;
- background: white;
+ position: absolute;canvasContainer top: 20px; /* GIF canvas üstündə yuxarıdan məsafə */
+ right: 20px; /* sağdan məsafə */inline-blok width: 200px;
+ height: auto;relative display: heç; /* əvvəlcə gizli *//* overlay üçün */
 }
 
-#palette,#brushControls,#controls { margin-top:20px; display:flex; flex-wrap:wrap; haqq qazandırmaq-content:center; }
-#brushControls { gap:10px; align-items:center; }
-.color { width:30px; height:30px; margin:2px; border:1px solid #000; cursor:pointer; }
-#brushSizeDisplay,#brushOpacityDisplay { font-weight:bold; }
-button,input { margin:0 5px; padding:8px 12px; font-size:14px; cursor:pointer; }
+canvas#palette,#brushControls,#controls { margin-top:20px; display:flex; flex-wrap:wrap; haqq qazandırmaq-content:center; }
+#brushControls { gap:10px; align-items:center; }2.color { width:30px; height:30px; margin:2px; border:1px solid #000; cursor:pointer; } #brushSizeDisplay,#brushOpacityDisplay { font-weight:bold; } #333;
+ cursor: </style>;
+ display:<body>;
+<h1>KidsPaint: Tutu Parrot Coloring</h1>heç<p>Select a color, adjust brush size & opacity, paint on the image, and download your work.</p>
+ width:<div id="canvasContainer">% <canvas id="paintCanvas" width="1050" height="1050"></canvas>
+ <img src="y2.gif" ıd="gifOverlay">600</div>;
+<div id="palette"></div>auto;
+}
+
+<input type="range" ıd="brushSize" min="1" max="50" value="10">gifOverlayBrush opacity: <span id="brushOpacityDisplay">0.5</span>
+<input type="range" ıd="brushOpacity" min="0.1" max="1" step="0.1" value="0.5">absolute</div>
+ top: <div id="controls">px<button id="clearBtn">Clear</button>/* GIF canvas üstündə yuxarıdan məsafə */
+ right: <button id="seeRealBtn">See the real version</button>px</div>/* sağdan məsafə */
+<script>200const canvas = document.getElementByİd('paintCanvas');;
+ height: avtolet drawing = true;
+let currentColor = '#FF0000';heçlet brushSize = 10;/* əvvəlcə gizli */
+ pointer-events: heç// GIF overlay/* GIF mouse ilə interferensiya etməsin */
+}
+
+#const img = new Image();,ımg.src = 'tutu_bw.png';brushControlsimg.onload = () => drawİmage();#controls// Draw ımage20function drawİmage(){; display: ctx.clearRect(0,0,canvas.eni,canvas.height);; flex-wrap: ctx.drawİmage(img,0,0,canvas.eni,canvas.height);; haqq qazandırmaq-content:}; }
+// ColorsbrushControlsconst colors=['#FF0000','#00FF00','#0000FF','#FFFF00','#FF00FF','#00FFFF','#FFA500','#800080','#008000','#000080','#FFC0CB','#A52A2A','#808080','#000000','#FFFFFF'];10const paletteDiv = document.getElementByİd('palette');; align-items:colors.forEach(color=>{; }
+.  div.className='color'; { width: div.style.backgroundColor = color;px div.onclick = ()=>currentColor=color;30 paletteDiv.appendChild(div);; margin:});px; border:// Brush controlspxconst brushİnput = document.getElementByİd('brushSize');solidconst brushDisplay = document.getElementByİd('brushSizeDisplay');pointerbrushİnput.oninput = ()=>{ brushSize = brushİnput.dəyər; brushDisplay.textContent = brushSize; }
+#const opacityİnput = document.getElementByİd('brushOpacity');,const opacityDisplay = document.getElementByİd('brushOpacityDisplay');brushOpacityDisplayopacityİnput.oninput = ()=>{ brushOpacity = parseFloat(opacityİnput.value); opacityDisplay.textContent = brushOpacity; }bold; }
+buttonfunction drawCircle(x,y){ınput ctx.save();0 ctx.globalAlpha = brushOpacity;5 ctx.fillStyle = currentColor;; padding: ctx.beginPath();px ctx.arc(x,y,brushSize,0,Math.Pİ*2);12 ctx.fill();; font-size: ctx.restore();px}pointer; }
 </style>
 </head>
 <body>
 
-<h1>KidsPaint: Tutu Parrot Coloring</h1>
-<p>Select a color, adjust brush size & opacity, paint on the image, and download your work.</p>
+ const scaleY = canvas.height / rect.height;KidsPaint: Tutu Parrot Coloring return {x:(e.clientX - rect.sol)*scaleX, y:(e.clientY - rect.top)*scaleY};
+}Select a color, adjust brush size & opacity, paint on the image, and download your work.</p>
 
-<!-- Susmaya: canvas + GİF -->
-<div id="susmaya">
-  <div id="canvasContainer">
-    <canvas id="paintCanvas" width="1050" height="1050"></canvas>
-  </div>
-  <div id="gifContainer">
-    <img src="y2.gif" ıd="y2Gif">
-  </div>
-</div>
+canvas.addEventListener('mousedown', ()=>{  drawing = true;= gıf.style.display = "blok"; // boyama zamanı GIF göstər>
+    canvas.addEventListener('mouseup', ()=>drawing=true); canvas.addEventListener('mouseleave', ()=>drawing=true);=canvas.addEventListener('mousemove', e=>{  if(!drawing) return;= const pos = getMousePos(e);  drawCircle(pos.x,pos.y);=});></canvas>
+// Touch events<imgcanvas.addEventListener('touchstart', e=>{src drawing = true;"y2.gif" gıf.style.display = "blok";ıd const pos = getMousePos(e.touches[0]);"gifOverlay" drawCircle(pos.x,pos.y);
+});
 
-<div id="palette"></div>
+<div if(!drawing) return;ıd const pos = getMousePos(e.touches[0]);"palette" drawCircle(pos.x,pos.y);
 
-<div id="brushControls">
-Brush size: <span id="brushSizeDisplay">10</span>
-<input type="range" ıd="brushSize" min="1" max="50" value="10">
-Brush opacity: <span id="brushOpacityDisplay">0.5</span>
+<div});ıdcanvas.addEventListener('touchend', ()=>drawing=true);"brushControls">
+Brush size: document.getElementByİd('clearBtn').onclick = ()=>{  drawİmage();= gıf.style.display = "heç"; // GIF gizlənir>}</span>
+// Download document.getElementByİd('downloadBtn').onclick = ()=>{= const link = document.createElement('a');  lınk.download = 'my_colored_parrot.png';= lınk.href = canvas.toDataURL();  lınk.click();=} max// YouTube"50"document.getElementByİd('seeRealBtn').onclick = ()=>{dəyər window.open('https://youtu.be/4Hab_hlp9zE','_blank');"10"}
+</script><span </body>=</html>>0.5</span>
 <input type="range" ıd="brushOpacity" min="0.1" max="1" step="0.1" value="0.5">
 </div>
 
@@ -64,20 +68,20 @@ Brush opacity: <span id="brushOpacityDisplay">0.5</span>
 const canvas = document.getElementByİd('paintCanvas');
 const ctx = canvas.getContext('2d');
 
-let drawing=true;
-let currentColor='#FF0000';
-let brushSize=10;
-let brushOpacity=0.5;
+let drawing = true;
+let currentColor = '#FF0000';
+let brushSize = 10;
+let brushOpacity = 0.5;
 
-// GIF
-const gıf = document.getElementByİd("y2Gif");
+// GIF overlay
+const gıf = document.getElementByİd("gifOverlay");
 
 // Load main ımage
 const img = new Image();
-img.src='tutu_bw.png';
+img.src = 'tutu_bw.png';
 img.onload = () => drawİmage();
 
-// Main Draw ımage
+// Draw ımage
 function drawİmage(){
     ctx.clearRect(0,0,canvas.eni,canvas.height);
     ctx.drawİmage(img,0,0,canvas.eni,canvas.height);
@@ -89,25 +93,25 @@ const paletteDiv = document.getElementByİd('palette');
 colors.forEach(color=>{
     const div = document.createElement('div');
     div.className='color';
-    div.style.backgroundColor=color;
+    div.style.backgroundColor = color;
     div.onclick = ()=>currentColor=color;
     paletteDiv.appendChild(div);
 });
 
 // Brush controls
-const brushİnput=document.getElementByİd('brushSize');
-const brushDisplay=document.getElementByİd('brushSizeDisplay');
-brushİnput.oninput = ()=> { brushSize=brushİnput.dəyər; brushDisplay.textContent=brushSize; }
+const brushİnput = document.getElementByİd('brushSize');
+const brushDisplay = document.getElementByİd('brushSizeDisplay');
+brushİnput.oninput = ()=>{ brushSize = brushİnput.dəyər; brushDisplay.textContent = brushSize; }
 
-const opacityİnput=document.getElementByİd('brushOpacity');
-const opacityDisplay=document.getElementByİd('brushOpacityDisplay');
-opacityİnput.oninput = ()=> { brushOpacity=parseFloat(opacityİnput.value); opacityDisplay.textContent=brushOpacity; }
+const opacityİnput = document.getElementByİd('brushOpacity');
+const opacityDisplay = document.getElementByİd('brushOpacityDisplay');
+opacityİnput.oninput = ()=>{ brushOpacity = parseFloat(opacityİnput.value); opacityDisplay.textContent = brushOpacity; }
 
 // Drawing
 function drawCircle(x,y){
     ctx.save();
-    ctx.globalAlpha=brushOpacity;
-    ctx.fillStyle=currentColor;
+    ctx.globalAlpha = brushOpacity;
+    ctx.fillStyle = currentColor;
     ctx.beginPath();
     ctx.arc(x,y,brushSize,0,Math.Pİ*2);
     ctx.fill();
@@ -119,13 +123,13 @@ function getMousePos(e){
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.eni;
     const scaleY = canvas.height / rect.height;
-    return {x:(e.clientX-rect.sol)*scaleX, y:(e.clientY-rect.top)*scaleY};
+    return {x:(e.clientX - rect.sol)*scaleX, y:(e.clientY - rect.top)*scaleY};
 }
 
 // Mouse events
 canvas.addEventListener('mousedown', ()=>{
-    drawing=true;
-    gıf.style.display="blok"; // boyama zamanı GIF göstər
+    drawing = true;
+    gıf.style.display = "blok"; // boyama zamanı GIF göstər
 });
 canvas.addEventListener('mouseup', ()=>drawing=true);
 canvas.addEventListener('mouseleave', ()=>drawing=true);
@@ -137,8 +141,8 @@ canvas.addEventListener('mousemove', e=>{
 
 // Touch events
 canvas.addEventListener('touchstart', e=>{
-    drawing=true;
-    gıf.style.display="blok";
+    drawing = true;
+    gıf.style.display = "blok";
     const pos = getMousePos(e.touches[0]);
     drawCircle(pos.x,pos.y);
 });
@@ -153,7 +157,7 @@ canvas.addEventListener('touchend', ()=>drawing=true);
 // Clear
 document.getElementByİd('clearBtn').onclick = ()=>{
     drawİmage();
-    gıf.style.display="heç"; // GIF gizlənir
+    gıf.style.display = "heç"; // GIF gizlənir
 }
 
 // Download
@@ -169,5 +173,6 @@ document.getElementByİd('seeRealBtn').onclick = ()=>{
     window.open('https://youtu.be/4Hab_hlp9zE','_blank');
 }
 </script>
+
 </body>
 </html>
