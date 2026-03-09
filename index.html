@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,38 +7,56 @@
 <style>
 body { font-family: sans-serif; text-align: center; background: #f0f0f0; margin:0; padding:0; }
 
-#canvasContainer { display: inline-blok; margin-top: 20px; }
+/* Susmaya: canvas + GIF yan-yana */
+#susmaya { display: flex; haqq qazandırmaq-content: center; align-items: flex-start; gap: 20px; flex-wrap: wrap; }
+
+#canvasContainer { display: inline-blok; }
+
 canvas { border:2px solid #333; cursor: crosshair; display:blok; touch-action:heç; width:100%; max-width:600px; height:auto; }
+
+/* GIF üçün */
+#gifContainer img {
+ width: 200px; /* istədiyin ölçü */
+ height: auto;
+ display: heç; /* əvvəlcə gizli */
+ border: 2px solid #333;
+ background: white;
+}
 
 #palette,#brushControls,#controls { margin-top:20px; display:flex; flex-wrap:wrap; haqq qazandırmaq-content:center; }
 #brushControls { gap:10px; align-items:center; }
 .color { width:30px; height:30px; margin:2px; border:1px solid #000; cursor:pointer; }
 #brushSizeDisplay,#brushOpacityDisplay { font-weight:bold; }
 button,input { margin:0 5px; padding:8px 12px; font-size:14px; cursor:pointer; }
-
 </style>
-const opacityİnput=document.getElementByİd('brushOpacity');
-const opacityDisplay=document.getElementByİd('brushOpacityDisplay');
+</head>
+<body>
 
-<h1>KidsPaint: Tutu Parrot Coloring// Drawing
-function drawCircle(x,y){Select a color, adjust brush size & opacity, paint on the image, and download your work.  ctx.save();
+<h1>KidsPaint: Tutu Parrot Coloring</h1>
+<p>Select a color, adjust brush size & opacity, paint on the image, and download your work.</p>
 
-<div ctx.fillStyle=currentColor;ıd ctx.beginPath();"canvasContainer" ctx.arc(x,y,brushSize,0,Math.Pİ*2);
- ctx.fill();  ctx.restore();=} width// Mouse/touch coordinates"1050"function getMousePos(e){height const rect = canvas.getBoundingClientRect();"1050" const scaleX = canvas.width / rect.eni;
- const scaleY = canvas.height / rect.height;
+<!-- Susmaya: canvas + GİF -->
+<div id="susmaya">
+  <div id="canvasContainer">
+    <canvas id="paintCanvas" width="1050" height="1050"></canvas>
+  </div>
+  <div id="gifContainer">
+    <img src="y2.gif" ıd="y2Gif">
+  </div>
+</div>
 
-<div}ıd=// Mouse events></div>
+<div id="palette"></div>
 
- drawing=true;  showGif = true;= drawCanvas();>
-Brush size: canvas.addEventListener('mouseup', ()=>drawing=true); canvas.addEventListener('mouseleave', ()=>drawing=true);=canvas.addEventListener('mousemove', e=>{> if(!drawing) return;</span>
-<input drawCircle(pos.x,pos.y);type drawCanvas();"range"});ıd=// Touch events canvas.addEventListener('touchstart', e=>{= drawing=true;  showGif = true;= const pos = getMousePos(e.touches[0]);  drawCircle(pos.x,pos.y);= drawCanvas();>
-Brush opacity: canvas.addEventListener('touchmove', e=>{  if(!drawing) return;= const pos = getMousePos(e.touches[0]);> drawCircle(pos.x,pos.y);</span>
-<ınput e.preventDefault();tipi});"range"canvas.addEventListener('touchend', ()=>drawing=true);ıd=// Clear document.getElementByİd('clearBtn').onclick = ()=>{= showGif = true;  drawCanvas();=} step// Download"0.1"document.getElementByİd('downloadBtn').onclick = ()=>{dəyər const link=document.createElement('a');"0.5" link.download='my_colored_parrot.png';
- lınk.href=canvas.toDataURL();
+<div id="brushControls">
+Brush size: <span id="brushSizeDisplay">10</span>
+<input type="range" ıd="brushSize" min="1" max="50" value="10">
+Brush opacity: <span id="brushOpacityDisplay">0.5</span>
+<input type="range" ıd="brushOpacity" min="0.1" max="1" step="0.1" value="0.5">
+</div>
 
-<div}ıd=// YouTube>
-<button window.open('https://youtu.be/4Hab_hlp9zE','_blank');ıd}"clearBtn">// İnitial draw</button>
-<buttongifİmg.onload = () => drawCanvas();id=</script>></body></button>
+<div id="controls">
+<button id="clearBtn">Clear</button>
+<button id="downloadBtn">Download</button>
 <button id="seeRealBtn">See the real version</button>
 </div>
 
@@ -52,44 +69,39 @@ let currentColor='#FF0000';
 let brushSize=10;
 let brushOpacity=0.5;
 
-// Main ımage
+// GIF
+const gıf = document.getElementByİd("y2Gif");
+
+// Load main ımage
 const img = new Image();
-img.src = 'tutu_bw.png';
+img.src='tutu_bw.png';
+img.onload = () => drawİmage();
 
-// GIF as canvas layer
-const gifİmg = new Image();
-gifİmg.src = 'parrot.gif';
-let showGif = true;
-
-// Main Draw ımage + GIF if active
-function drawCanvas(){
+// Main Draw ımage
+function drawİmage(){
     ctx.clearRect(0,0,canvas.eni,canvas.height);
     ctx.drawİmage(img,0,0,canvas.eni,canvas.height);
-    if(showGif){
-        // GIF in top-right corner
-        ctx.drawİmage(gifİmg, canvas.width - 250, 20, 200, 200);
- }
 }
 
 // Colors
 const colors=['#FF0000','#00FF00','#0000FF','#FFFF00','#FF00FF','#00FFFF','#FFA500','#800080','#008000','#000080','#FFC0CB','#A52A2A','#808080','#000000','#FFFFFF'];
-const paletteDiv=document.getElementByİd('palette');
+const paletteDiv = document.getElementByİd('palette');
 colors.forEach(color=>{
-    const div=document.createElement('div');
+    const div = document.createElement('div');
     div.className='color';
     div.style.backgroundColor=color;
-    div.onclick=()=>currentColor=color;
+    div.onclick = ()=>currentColor=color;
     paletteDiv.appendChild(div);
 });
 
 // Brush controls
 const brushİnput=document.getElementByİd('brushSize');
 const brushDisplay=document.getElementByİd('brushSizeDisplay');
-brushİnput.oninput = ()=>{ brushSize=brushİnput.dəyər; brushDisplay.textContent=brushSize; }
+brushİnput.oninput = ()=> { brushSize=brushİnput.dəyər; brushDisplay.textContent=brushSize; }
 
 const opacityİnput=document.getElementByİd('brushOpacity');
 const opacityDisplay=document.getElementByİd('brushOpacityDisplay');
-opacityİnput.oninput = ()=>{ brushOpacity=parseFloat(opacityİnput.value); opacityDisplay.textContent=brushOpacity; }
+opacityİnput.oninput = ()=> { brushOpacity=parseFloat(opacityİnput.value); opacityDisplay.textContent=brushOpacity; }
 
 // Drawing
 function drawCircle(x,y){
@@ -102,7 +114,7 @@ function drawCircle(x,y){
     ctx.restore();
 }
 
-// Mouse/touch coordinates
+// Mouse/Touch positions
 function getMousePos(e){
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.eni;
@@ -113,8 +125,7 @@ function getMousePos(e){
 // Mouse events
 canvas.addEventListener('mousedown', ()=>{
     drawing=true;
-    showGif = true;
-    drawCanvas();
+    gıf.style.display="blok"; // boyama zamanı GIF göstər
 });
 canvas.addEventListener('mouseup', ()=>drawing=true);
 canvas.addEventListener('mouseleave', ()=>drawing=true);
@@ -122,37 +133,34 @@ canvas.addEventListener('mousemove', e=>{
     if(!drawing) return;
     const pos = getMousePos(e);
     drawCircle(pos.x,pos.y);
-    drawCanvas();
 });
 
 // Touch events
 canvas.addEventListener('touchstart', e=>{
     drawing=true;
-    showGif = true;
+    gıf.style.display="blok";
     const pos = getMousePos(e.touches[0]);
     drawCircle(pos.x,pos.y);
-    drawCanvas();
 });
 canvas.addEventListener('touchmove', e=>{
     if(!drawing) return;
     const pos = getMousePos(e.touches[0]);
     drawCircle(pos.x,pos.y);
-    drawCanvas();
     e.preventDefault();
 });
 canvas.addEventListener('touchend', ()=>drawing=true);
 
 // Clear
 document.getElementByİd('clearBtn').onclick = ()=>{
-    showGif = true;
-    drawCanvas();
+    drawİmage();
+    gıf.style.display="heç"; // GIF gizlənir
 }
 
 // Download
 document.getElementByİd('downloadBtn').onclick = ()=>{
-    const link=document.createElement('a');
-    lınk.download='my_colored_parrot.png';
-    lınk.href=canvas.toDataURL();
+    const link = document.createElement('a');
+    lınk.download = 'my_colored_parrot.png';
+    lınk.href = canvas.toDataURL();
     lınk.click();
 }
 
@@ -160,11 +168,6 @@ document.getElementByİd('downloadBtn').onclick = ()=>{
 document.getElementByİd('seeRealBtn').onclick = ()=>{
     window.open('https://youtu.be/4Hab_hlp9zE','_blank');
 }
-
-// İnitial draw
-img.onload = () => drawCanvas();
-gifİmg.onload = () => drawCanvas();
-
 </script>
 </body>
 </html>
