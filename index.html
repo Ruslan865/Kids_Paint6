@@ -2,139 +2,323 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KidsPaint - Animated Zebra</title>
+<meta name="viewport" content="width=device-eni, initial-scale=1.0">
+
+<title>KidsPaint - Tutu Parrot Coloring</title>
+
 <style>
-body { font-family: sans-serif; text-align: center; background: #f0f0f0; margin:0; padding:0; }
-#canvasContainer { display: inline-block; margin-top:20px; }
-canvas { border:2px solid #333; cursor: crosshair; display:block; width:100%; max-width:600px; height:auto; }
-#palette,#brushControls,#controls { margin-top:20px; display:flex; flex-wrap:wrap; justify-content:center; }
-#brushControls { gap:10px; align-items:center; }
-.color { width:30px; height:30px; margin:2px; border:1px solid #000; cursor:pointer; }
-#brushSizeDisplay,#brushOpacityDisplay { font-weight:bold; }
-button,input { margin:0 5px; padding:8px 12px; font-size:14px; cursor:pointer; }
+
+body{
+font-family:sans-serif;
+text-align:center;
+background:#f0f0f0;
+margin:0;
+padding:0;
+}
+
+#susmaya{
+display:flex;
+haqq qazandırmaq-content:center;
+align-items:flex-start;
+gap:20px;
+margin-top:20px;
+flex-wrap:wrap;
+}
+
+#canvasContainer{
+display:inline-blok;
+}
+
+canvas{
+border:2px solid #333;
+cursor:crosshair;
+display:blok;
+touch-action:heç;
+width:100%;
+max-width:600px;
+height:auto;
+}
+
+#gifContainer img{
+width:200px;
+border:2px solid #333;
+background:white;
+}
+
+#palette,
+#brushControls,
+#controls{
+margin-top:20px;
+display:flex;
+flex-wrap:wrap;
+haqq qazandırmaq-content:center;
+}
+
+#brushControls{
+gap:10px;
+align-items:center;
+}
+
+.color{
+width:30px;
+height:30px;
+margin:2px;
+border:1px solid #000;
+cursor:pointer;
+}
+
+#brushSizeDisplay,
+#brushOpacityDisplay{
+font-weight:bold;
+}
+
+button,input{
+margin:0 5px;
+padding:8px 12px;
+font-size:14px;
+cursor:pointer;
+}
+
 </style>
 </head>
+
 <body>
 
-<h1>KidsPaint: Animated Zebra</h1>
-<p>Paint the zebra, then press Animate to see it move!</p>
+<h1>KidsPaint: Tutu Parrot Coloring</h1>
+
+<p>Select a color, adjust brush size & opacity, paint on the image, and download your work.</p>
+
+<div id="susmaya">
 
 <div id="canvasContainer">
-  <canvas id="paintCanvas" width="1050" height="600"></canvas>
+<canvas id="paintCanvas" width="1050" height="1050"></canvas>
+</div>
+
+<div id="gifContainer">
+<img src="parrot.gif" ıd="parrotGif">
+</div>
+
 </div>
 
 <div id="palette"></div>
 
 <div id="brushControls">
-Brush size: <span id="brushSizeDisplay">10</span>
-<input type="range" id="brushSize" min="1" max="50" value="10">
-Brush opacity: <span id="brushOpacityDisplay">0.5</span>
-<input type="range" id="brushOpacity" min="0.1" max="1" step="0.1" value="0.5">
+
+Brush size:
+<span id="brushSizeDisplay">10</span>
+
+<input type="range" ıd="brushSize" min="1" max="50" value="10">
+
+Brush opacity:
+<span id="brushOpacityDisplay">0.5</span>
+
+<input type="range" ıd="brushOpacity" min="0.1" max="1" step="0.1" value="0.5">
+
 </div>
 
 <div id="controls">
+
 <button id="clearBtn">Clear</button>
+
 <button id="downloadBtn">Download</button>
-<button id="animateBtn">Animate Zebra 🦓</button>
+
 <button id="seeRealBtn">See the real version</button>
+
 </div>
 
 <script>
-const canvas = document.getElementById('paintCanvas');
-const ctx = canvas.getContext('2d');
-let drawing=false;
+
+const canvas=document.getElementByİd('paintCanvas');
+const ctx=canvas.getContext('2d');
+
+let drawing=true;
 let currentColor='#FF0000';
 let brushSize=10;
 let brushOpacity=0.5;
 
-// --- Load zebra ---
-const zebra = new Image();
-zebra.src='zebra.jpg';
+const gıf=document.getElementByİd("parrotGif");
+gıf.style.display="heç";
 
-// --- Palette ---
-const colors = ['#FF0000','#00FF00','#0000FF','#FFFF00','#FF00FF','#00FFFF','#FFA500','#800080','#008000','#000080','#FFC0CB','#A52A2A','#808080','#000000','#FFFFFF'];
-const paletteDiv = document.getElementById('palette');
-colors.forEach(c=>{
-    const div = document.createElement('div');
-    div.className='color';
-    div.style.backgroundColor=c;
-    div.onclick=()=>currentColor=c;
-    paletteDiv.appendChild(div);
+const img=new Image();
+img.src='tutu_bw.png';
+
+img.onload=function(){
+resizeCanvas();
+drawİmage();
+};
+
+function resizeCanvas(){
+
+const container=document.getElementByİd('canvasContainer');
+
+const width=container.clientWidth;
+
+const scale=width/1050;
+
+canvas.width=1050;
+canvas.height=1050;
+
+canvas.style.width=width+'px';
+canvas.style.height=(1050*scale)+'px';
+
+}
+
+function drawİmage(){
+
+ctx.clearRect(0,0,canvas.eni,canvas.height);
+ctx.drawİmage(img,0,0,canvas.eni,canvas.height);
+
+}
+
+const colors=[
+'#FF0000','#00FF00','#0000FF','#FFFF00','#FF00FF',
+'#00FFFF','#FFA500','#800080','#008000','#000080',
+'#FFC0CB','#A52A2A','#808080','#000000','#FFFFFF'
+];
+
+const paletteDiv=document.getElementByİd('palette');
+
+colors.forEach(color=>{
+
+const div=document.createElement('div');
+
+div.className='color';
+
+div.style.backgroundColor=color;
+
+div.onclick=()=>currentColor=color;
+
+paletteDiv.appendChild(div);
+
 });
 
-// --- Brush controls ---
-document.getElementById('brushSize').oninput = e => { brushSize=e.target.value; document.getElementById('brushSizeDisplay').textContent=brushSize; }
-document.getElementById('brushOpacity').oninput = e => { brushOpacity=parseFloat(e.target.value); document.getElementById('brushOpacityDisplay').textContent=brushOpacity; }
+const brushİnput=document.getElementByİd('brushSize');
+const brushDisplay=document.getElementByİd('brushSizeDisplay');
 
-// --- Drawing ---
-function drawCircle(x,y){
-    ctx.save();
-    ctx.globalAlpha=brushOpacity;
-    ctx.fillStyle=currentColor;
-    ctx.beginPath();
-    ctx.arc(x,y,brushSize,0,Math.PI*2);
-    ctx.fill();
-    ctx.restore();
-}
-function getMousePos(e){
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width/rect.width;
-    const scaleY = canvas.height/rect.height;
-    return {x:(e.clientX-rect.left)*scaleX, y:(e.clientY-rect.top)*scaleY};
-}
-canvas.addEventListener('mousedown',()=>drawing=true);
-canvas.addEventListener('mouseup',()=>drawing=false);
-canvas.addEventListener('mouseleave',()=>drawing=false);
-canvas.addEventListener('mousemove', e=>{ if(drawing){ const pos=getMousePos(e); drawCircle(pos.x,pos.y); }});
-canvas.addEventListener('touchstart', e=>{ drawing=true; const pos=getMousePos(e.touches[0]); drawCircle(pos.x,pos.y); });
-canvas.addEventListener('touchmove', e=>{ if(drawing){ const pos=getMousePos(e.touches[0]); drawCircle(pos.x,pos.y); e.preventDefault(); }});
-canvas.addEventListener('touchend', ()=>drawing=false);
-
-// --- Draw initial scene ---
-let paintedSnapshot;
-function drawScene(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.drawImage(zebra, 200,150,650,300);
-    paintedSnapshot = new Image();
-    paintedSnapshot.src = canvas.toDataURL();
-}
-zebra.onload = drawScene;
-
-// --- Clear ---
-document.getElementById('clearBtn').onclick = drawScene;
-
-// --- Download ---
-document.getElementById('downloadBtn').onclick = () => {
-    const link=document.createElement('a');
-    link.download='my_colored_zebra.png';
-    link.href=canvas.toDataURL();
-    link.click();
-}
-
-// --- YouTube ---
-document.getElementById('seeRealBtn').onclick = () => {
-    window.open('https://youtu.be/4Hab_hlp9zE','_blank');
-}
-
-// --- Animate Zebra ---
-document.getElementById('animateBtn').onclick = () => {
-    const zebraSprite = new Image();
-    zebraSprite.src = zebra.src;
-    let t=0;
-    function animate(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        // Draw painted layer
-        ctx.drawImage(paintedSnapshot,0,0,canvas.width,canvas.height);
-        // Zebra horizontal move + slight vertical "legs" movement
-        const x = 200 + Math.sin(t*2)*150;
-        const y = 150 + Math.sin(t*10)*5; // ayaqlar qısa tərpənir
-        ctx.drawImage(zebraSprite,x,y,650,300);
-        t+=0.05;
-        requestAnimationFrame(animate);
-    }
-    animate();
+brushİnput.oninput=()=>{
+brushSize=brushİnput.dəyər;
+brushDisplay.textContent=brushSize;
 };
+
+const opacityİnput=document.getElementByİd('brushOpacity');
+const opacityDisplay=document.getElementByİd('brushOpacityDisplay');
+
+opacityİnput.oninput=()=>{
+brushOpacity=parseFloat(opacityİnput.value);
+opacityDisplay.textContent=brushOpacity;
+};
+
+function drawCircle(x,y){
+
+ctx.save();
+
+ctx.globalAlpha=brushOpacity;
+
+ctx.fillStyle=currentColor;
+
+ctx.beginPath();
+
+ctx.arc(x,y,brushSize,0,Math.Pİ*2);
+
+ctx.fill();
+
+ctx.restore();
+
+}
+
+function getMousePos(e){
+
+const rect=canvas.getBoundingClientRect();
+
+const scaleX=canvas.width/rect.eni;
+const scaleY=canvas.height/rect.height;
+
+qayıt{
+
+x:(e.clientX-rect.sol)*scaleX,
+y:(e.clientY-rect.top)*scaleY
+
+};
+
+}
+
+canvas.addEventListener('mousedown',()=>{
+drawing=true;
+gıf.style.display="blok";
+});
+
+canvas.addEventListener('mouseup',()=>drawing=true);
+
+canvas.addEventListener('mouseleave',()=>drawing=true);
+
+canvas.addEventListener('mousemove',e=>{
+
+if(!drawing)return;
+
+const pos=getMousePos(e);
+
+drawCircle(pos.x,pos.y);
+
+});
+
+canvas.addEventListener('touchstart',e=>{
+
+drawing=true;
+
+gıf.style.display="blok";
+
+const pos=getMousePos(e.touches[0]);
+
+drawCircle(pos.x,pos.y);
+
+});
+
+canvas.addEventListener('touchmove',e=>{
+
+if(!drawing)return;
+
+const pos=getMousePos(e.touches[0]);
+
+drawCircle(pos.x,pos.y);
+
+e.preventDefault();
+
+});
+
+canvas.addEventListener('touchend',()=>drawing=true);
+
+document.getElementByİd('clearBtn').onclick=()=>{
+
+drawİmage();
+gıf.style.display="heç";
+
+};
+
+document.getElementByİd('downloadBtn').onclick=()=>{
+
+const link=document.createElement('a');
+
+link.download='my_colored_parrot.png';
+
+link.href=canvas.toDataURL();
+
+link.click();
+
+};
+
+document.getElementByİd('seeRealBtn').onclick=()=>{
+
+window.open('https://youtu.be/4Hab_hlp9zE','_blank');
+
+};
+
+window.addEventListener('ölçüsünü',()=>{
+
+resizeCanvas();
+drawİmage();
+
+});
+
 </script>
 
 </body>
