@@ -7,25 +7,7 @@
 <style>
 body { font-family: sans-serif; text-align: center; background: #f0f0f0; margin:0; padding:0; }
 
-#layout {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-#gifContainer img {
-    width: 200px;
-    height: auto;
-    pointer-events: none; /* GIF rəngləməyə mane olmur */
-    border: 2px solid #333;
-    background: white;
-}
-
-#canvasContainer {
-    display: inline-block;
-}
+#canvasContainer { display: inline-block; }
 
 canvas {
     border:2px solid #333;
@@ -41,6 +23,17 @@ canvas {
 .color { width:30px; height:30px; margin:2px; border:1px solid #000; cursor:pointer; }
 #brushSizeDisplay,#brushOpacityDisplay { font-weight:bold; }
 button,input { margin:0 5px; padding:8px 12px; font-size:14px; cursor:pointer; }
+
+/* GIF rəng kontrollerinin altına, bordersiz */
+#gifContainer {
+    margin-top: 20px;
+}
+#gifContainer img {
+    width: 150px; /* istədiyin ölçü */
+    height: auto;
+    pointer-events: none; /* rəngləməyə mane olmur */
+    border: none; /* çərçivə görünməz oldu */
+}
 </style>
 </head>
 <body>
@@ -48,15 +41,8 @@ button,input { margin:0 5px; padding:8px 12px; font-size:14px; cursor:pointer; }
 <h1>KidsPaint: Tutu Parrot Coloring</h1>
 <p>Select a color, adjust brush size & opacity, paint on the image, and download your work.</p>
 
-<div id="layout">
-  <!-- GIF sol tərəfdə -->
-  <div id="gifContainer">
-    <img src="y2.gif" id="y2Gif">
-  </div>
-  <!-- Canvas -->
-  <div id="canvasContainer">
+<div id="canvasContainer">
     <canvas id="paintCanvas" width="1050" height="1050"></canvas>
-  </div>
 </div>
 
 <div id="palette"></div>
@@ -74,6 +60,11 @@ Brush opacity: <span id="brushOpacityDisplay">0.5</span>
 <button id="seeRealBtn">See the real version</button>
 </div>
 
+<!-- GIF rəng kontrollerinin altına -->
+<div id="gifContainer">
+    <img src="y2.gif" id="y2Gif">
+</div>
+
 <script>
 const canvas = document.getElementById('paintCanvas');
 const ctx = canvas.getContext('2d');
@@ -84,7 +75,7 @@ let brushSize = 10;
 let brushOpacity = 0.5;
 
 const img = new Image();
-img.src = 'cat.jpg';
+img.src = 'tutu_bw.png';
 img.onload = () => drawImage();
 
 function drawImage(){
