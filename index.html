@@ -9,14 +9,15 @@ body { font-family: sans-serif; text-align: center; background: #f0f0f0; margin:
 
 #canvasContainer {
     display: inline-block;
-    position: relative; /* GIF üçün relative konteyner */
+    position: relative; /* GIF üçün */
 }
 
+/* Canvas responsive */
 canvas {
     border:2px solid #333;
     cursor: crosshair;
     width: 100%;
-    max-width: 600px; /* Desktop ölçüsü */
+    max-width: 500px; /* daha kiçik desktop və mobil üçün */
     height: auto;
     touch-action: none;
 }
@@ -26,26 +27,27 @@ canvas {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 150px; /* Desktop ölçüsü */
+    width: 120px; /* desktop üçün kiçik ölçü */
     height: auto;
     pointer-events: none;
     border: none;
     background: transparent;
 }
 
+/* Rəng palet və brush */
 #palette,#brushControls,#controls { margin-top:20px; display:flex; flex-wrap:wrap; justify-content:center; }
 #brushControls { gap:10px; align-items:center; }
 .color { width:30px; height:30px; margin:2px; border:1px solid #000; cursor:pointer; }
 #brushSizeDisplay,#brushOpacityDisplay { font-weight:bold; }
 button,input { margin:0 5px; padding:8px 12px; font-size:14px; cursor:pointer; }
 
-/* Mobil üçün kiçiltmə */
+/* Mobil üçün əlavə kiçiltmə */
 @media screen and (max-width: 480px) {
     canvas {
-        max-width: 90vw; /* Ekranın 90%-i */
+        max-width: 90vw; /* ekranın 90%-i */
     }
     #gifOverlay {
-        width: 80px; /* Daha kiçik GIF mobil üçün */
+        width: 70px; /* GIF daha kiçik olsun */
     }
 }
 </style>
@@ -57,7 +59,6 @@ button,input { margin:0 5px; padding:8px 12px; font-size:14px; cursor:pointer; }
 
 <div id="canvasContainer">
     <canvas id="paintCanvas" width="1050" height="1050"></canvas>
-    <!-- GIF sol aşağı künc -->
     <img src="y2.gif" id="gifOverlay">
 </div>
 
