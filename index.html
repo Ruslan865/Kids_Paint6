@@ -16,7 +16,7 @@ canvas {
     border:2px solid #333;
     cursor: crosshair;
     width: 100%;
-    max-width: 600px;
+    max-width: 600px; /* Desktop ölçüsü */
     height: auto;
     touch-action: none;
 }
@@ -26,10 +26,10 @@ canvas {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 150px;
+    width: 150px; /* Desktop ölçüsü */
     height: auto;
-    pointer-events: none; /* rəngləməyə mane olmur */
-    border: none; /* çərçivə görünməz */
+    pointer-events: none;
+    border: none;
     background: transparent;
 }
 
@@ -38,6 +38,16 @@ canvas {
 .color { width:30px; height:30px; margin:2px; border:1px solid #000; cursor:pointer; }
 #brushSizeDisplay,#brushOpacityDisplay { font-weight:bold; }
 button,input { margin:0 5px; padding:8px 12px; font-size:14px; cursor:pointer; }
+
+/* Mobil üçün kiçiltmə */
+@media screen and (max-width: 480px) {
+    canvas {
+        max-width: 90vw; /* Ekranın 90%-i */
+    }
+    #gifOverlay {
+        width: 80px; /* Daha kiçik GIF mobil üçün */
+    }
+}
 </style>
 </head>
 <body>
@@ -47,7 +57,7 @@ button,input { margin:0 5px; padding:8px 12px; font-size:14px; cursor:pointer; }
 
 <div id="canvasContainer">
     <canvas id="paintCanvas" width="1050" height="1050"></canvas>
-    <!-- GIF sol aşağı küncdə -->
+    <!-- GIF sol aşağı künc -->
     <img src="y2.gif" id="gifOverlay">
 </div>
 
