@@ -7,29 +7,33 @@
 <style>
 body { font-family: sans-serif; text-align: center; background: #f0f0f0; margin:0; padding:0; }
 
+#layout {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+#gifContainer img {
+    width: 200px;
+    height: auto;
+    pointer-events: none; /* GIF rəngləməyə mane olmur */
+    border: 2px solid #333;
+    background: white;
+}
+
 #canvasContainer {
     display: inline-block;
-    position: relative; /* overlay üçün */
 }
 
 canvas {
     border:2px solid #333;
     cursor: crosshair;
-    display:block;
-    touch-action:none;
-    width:100%;
-    max-width:600px;
-    height:auto;
-}
-
-#gifOverlay {
-    position: absolute;
-    top: 20px;      /* GIF canvas üstündə yuxarıdan məsafə */
-    right: 20px;    /* sağdan məsafə */
-    width: 200px;
+    width: 100%;
+    max-width: 600px;
     height: auto;
-    display: none;  /* əvvəlcə gizli */
-    pointer-events: none; /* GIF mouse ilə interferensiya etməsin */
+    touch-action: none;
 }
 
 #palette,#brushControls,#controls { margin-top:20px; display:flex; flex-wrap:wrap; justify-content:center; }
@@ -44,9 +48,15 @@ button,input { margin:0 5px; padding:8px 12px; font-size:14px; cursor:pointer; }
 <h1>KidsPaint: Tutu Parrot Coloring</h1>
 <p>Select a color, adjust brush size & opacity, paint on the image, and download your work.</p>
 
-<div id="canvasContainer">
+<div id="layout">
+  <!-- GIF sol tərəfdə -->
+  <div id="gifContainer">
+    <img src="y2.gif" id="y2Gif">
+  </div>
+  <!-- Canvas -->
+  <div id="canvasContainer">
     <canvas id="paintCanvas" width="1050" height="1050"></canvas>
-    <img src="y2.gif" id="gifOverlay">
+  </div>
 </div>
 
 <div id="palette"></div>
@@ -73,15 +83,10 @@ let currentColor = '#FF0000';
 let brushSize = 10;
 let brushOpacity = 0.5;
 
-// GIF overlay
-const gif = document.getElementById("gifOverlay");
-
-// Load main image
 const img = new Image();
-img.src = 'cat.jpg';
+img.src = 'tutu_bw.png';
 img.onload = () => drawImage();
 
-// Draw image
 function drawImage(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.drawImage(img,0,0,canvas.width,canvas.height);
@@ -93,7 +98,7 @@ const paletteDiv = document.getElementById('palette');
 colors.forEach(color=>{
     const div = document.createElement('div');
     div.className='color';
-    div.style.backgroundColor = color;
+    div.style.backgroundColor=color;
     div.onclick = ()=>currentColor=color;
     paletteDiv.appendChild(div);
 });
@@ -118,7 +123,7 @@ function drawCircle(x,y){
     ctx.restore();
 }
 
-// Mouse/Touch positions
+// Mouse/Touch
 function getMousePos(e){
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width;
@@ -126,11 +131,7 @@ function getMousePos(e){
     return {x:(e.clientX - rect.left)*scaleX, y:(e.clientY - rect.top)*scaleY};
 }
 
-// Mouse events
-canvas.addEventListener('mousedown', ()=>{
-    drawing = true;
-    gif.style.display = "block"; // boyama zamanı GIF göstər
-});
+canvas.addEventListener('mousedown', ()=>drawing=true);
 canvas.addEventListener('mouseup', ()=>drawing=false);
 canvas.addEventListener('mouseleave', ()=>drawing=false);
 canvas.addEventListener('mousemove', e=>{
@@ -139,10 +140,8 @@ canvas.addEventListener('mousemove', e=>{
     drawCircle(pos.x,pos.y);
 });
 
-// Touch events
 canvas.addEventListener('touchstart', e=>{
     drawing = true;
-    gif.style.display = "block";
     const pos = getMousePos(e.touches[0]);
     drawCircle(pos.x,pos.y);
 });
@@ -155,10 +154,7 @@ canvas.addEventListener('touchmove', e=>{
 canvas.addEventListener('touchend', ()=>drawing=false);
 
 // Clear
-document.getElementById('clearBtn').onclick = ()=>{
-    drawImage();
-    gif.style.display = "none"; // GIF gizlənir
-}
+document.getElementById('clearBtn').onclick = ()=> drawImage();
 
 // Download
 document.getElementById('downloadBtn').onclick = ()=>{
@@ -173,6 +169,5 @@ document.getElementById('seeRealBtn').onclick = ()=>{
     window.open('https://youtu.be/4Hab_hlp9zE','_blank');
 }
 </script>
-
 </body>
 </html>
